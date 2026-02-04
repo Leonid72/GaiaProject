@@ -15,16 +15,19 @@
             <option [value]="op.name">{{ op.displayName }} - {{ op.description }}</option>
           }
         </select>
+        <div *ngIf="operationName?.invalid && (operationName?.touched || operationName?.dirty) 
+                && operationName?.hasError('required')" class="errorMessage">Please select an operation.</div>
       </div>
 
       <div class="form-group">
         <label>Field A</label>
         <input type="text" formControlName="fieldA" placeholder="Enter value">
+        <div *ngIf="fieldA?.invalid && (fieldA?.touched || fieldA?.dirty) && fieldA?.hasError('required')" class="errorMessage">Field A is required.</div>
       </div>
-
       <div class="form-group">
         <label>Field B</label>
         <input type="text" formControlName="fieldB" placeholder="Enter value">
+        <div *ngIf="fieldB?.invalid && (fieldB?.touched || fieldB?.dirty) && fieldB?.hasError('required')" class="errorMessage">Field B is required.</div>
       </div>
 
       <div class="button-group">

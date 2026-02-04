@@ -31,6 +31,10 @@ export class CalculatorComponent {
     fieldB: ['', Validators.required]
   });
 
+  get operationName() { return this.calcForm.get('operationName'); }
+  get fieldA() { return this.calcForm.get('fieldA'); }
+  get fieldB() { return this.calcForm.get('fieldB'); }
+
   onCalculate() {
     if (this.calcForm.invalid) return;
 
