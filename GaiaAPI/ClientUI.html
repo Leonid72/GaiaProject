@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaia Project - Operation Calculator (A34D)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-clear {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-clear:hover {
+            background: #e0e0e0;
+        }
+
+        .result-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        .result-value {
+            font-size: 2em;
+            color: #667eea;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .error {
+            color: #dc3545;
+            background: #f8d7da;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        .history-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .history-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .history-item {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .monthly-stats {
+            text-align: center;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .api-status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .api-status.connected {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .api-status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Gaia Project Calculator</h1>
+        <p class="subtitle">Project Code: A34D | Perform operations on two fields</p>
+        
+        <div id="apiStatus" class="api-status disconnected">
+            Checking API connection...
+        </div>
+
+        <form id="calculatorForm">
+            <div class="form-group">
+                <label for="operation">Select Operation</label>
+                <select id="operation" required>
+                    <option value="">Loading operations...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="fieldA">Field A</label>
+                <input type="text" id="fieldA" placeholder="Enter first value" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fieldB">Field B</label>
+                <input type="text" id="fieldB" placeholder="Enter second value" required>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-calculate">Calculate</button>
+                <button type="button" class="btn-clear" onclick="clearForm()">Clear</button>
+            </div>
+        </form>
+
+        <div id="resultSection" class="result-section">
+            <h3>Result</h3>
+            <div id="resultValue" class="result-value"></div>
+            
+            <div id="historySection" class="history-section" style="display: none;">
+                <div class="history-title">📊 Last 3 Operations of This Type</div>
+                <div id="historyList"></div>
+                
+                <div id="monthlyStats" class="monthly-stats"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // A34D - Client Side JavaScript
+        const API_BASE_URL = 'https://localhost:58291/api';
+        
+        // Load operations on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await checkApiConnection();
+            await loadOperations();
+        });
+
+        async function checkApiConnection() {
+            const statusDiv = document.getElementById('apiStatus');
+            try {
+                const response = await fetch(`${API_BASE_URL}/operations/active`);
+                if (response.ok) {
+                    statusDiv.textContent = '✓ Connected to API';
+                    statusDiv.className = 'api-status connected';
+                } else {
+                    throw new Error('API not responding');
+                }
+            } catch (error) {
+                statusDiv.textContent = '✗ Cannot connect to API. Please ensure the server is running.';
+                statusDiv.className = 'api-status disconnected';
+            }
+        }
+
+        async function loadOperations() {
+            const select = document.getElementById('operation');
+            try {
+                const response = await fetch(`${API_BASE_URL}/operations/active`);
+                if (!response.ok) throw new Error('Failed to load operations');
+                
+                const operations = await response.json();
+                
+                select.innerHTML = '<option value="">-- Select an operation --</option>';
+                operations.forEach(op => {
+                    const option = document.createElement('option');
+                    option.value = op.name;
+                    option.textContent = `${op.displayName} - ${op.description}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                select.innerHTML = '<option value="">Error loading operations</option>';
+                console.error('Error loading operations:', error);
+            }
+        }
+
+        document.getElementById('calculatorForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const operation = document.getElementById('operation').value;
+            const fieldA = document.getElementById('fieldA').value;
+            const fieldB = document.getElementById('fieldB').value;
+            
+            const resultSection = document.getElementById('resultSection');
+            const resultValue = document.getElementById('resultValue');
+            
+            // Show loading
+            resultSection.classList.add('show');
+            resultValue.innerHTML = '<div class="loading"><div class="spinner"></div><p>Calculating...</p></div>';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/operations/execute`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        operationName: operation,
+                        fieldA: fieldA,
+                        fieldB: fieldB
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.isSuccess) {
+                    resultValue.innerHTML = `<span class="success">${data.result}</span>`;
+                    
+                    // Show history if available
+                    if (data.historyInfo) {
+                        displayHistory(data.historyInfo);
+                    }
+                } else {
+                    resultValue.innerHTML = `<div class="error">Error: ${data.errorMessage}</div>`;
+                    document.getElementById('historySection').style.display = 'none';
+                }
+            } catch (error) {
+                resultValue.innerHTML = `<div class="error">Failed to execute operation: ${error.message}</div>`;
+                console.error('Error:', error);
+            }
+        });
+
+        function displayHistory(historyInfo) {
+            const historySection = document.getElementById('historySection');
+            const historyList = document.getElementById('historyList');
+            const monthlyStats = document.getElementById('monthlyStats');
+            
+            historySection.style.display = 'block';
+            
+            if (historyInfo.lastThreeOperations && historyInfo.lastThreeOperations.length > 0) {
+                historyList.innerHTML = historyInfo.lastThreeOperations.map(item => `
+                    <div class="history-item">
+                        <strong>${item.fieldA}</strong> ⟶ <strong>${item.fieldB}</strong> = <strong>${item.result}</strong>
+                        <br><small>${new Date(item.executedAt).toLocaleString()}</small>
+                    </div>
+                `).join('');
+            } else {
+                historyList.innerHTML = '<p style="text-align: center; color: #666;">No previous operations</p>';
+            }
+            
+            monthlyStats.textContent = `📈 ${historyInfo.monthlyOperationCount} operations this month`;
+        }
+
+        function clearForm() {
+            document.getElementById('calculatorForm').reset();
+            document.getElementById('resultSection').classList.remove('show');
+        }
+    </script>
+</body>
+</html>

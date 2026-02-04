@@ -1,0 +1,83 @@
+<div class="calculator-container">
+  <div class="card">
+    <div class="header">
+      <h2>🚀 Gaia Project Calculator</h2>
+      <p>Project Code: A34D | Perform operations on two fields</p>
+      <div class="status-bar">✓ Connected to API</div>
+    </div>
+
+    <form [formGroup]="calcForm" (ngSubmit)="onCalculate()">
+      <div class="form-group">
+        <label>Select Operation</label>
+        <select formControlName="operationName">
+          <option value="" disabled>Choose an operation</option>
+          @for (op of operations(); track op.id) {
+            <option [value]="op.name">{{ op.displayName }} - {{ op.description }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Field A</label>
+        <input type="text" formControlName="fieldA" placeholder="Enter value">
+      </div>
+
+      <div class="form-group">
+        <label>Field B</label>
+        <input type="text" formControlName="fieldB" placeholder="Enter value">
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn-calc" [disabled]="calcForm.invalid || isLoading()">
+          {{ isLoading() ? 'Calculating...' : 'Calculate' }}
+        </button>
+        <button type="button" class="btn-clear" (click)="onClear()">Clear</button>
+      </div>
+    </form>
+
+    <hr />
+
+ <div class="result-section">
+  @if (calculationState() || errorMessage()) {
+    <h3>Result</h3>
+    
+    <div class="result-container">
+      @if (calculationState()?.isSuccess) {
+        <div class="result-display success">
+          {{ calculationState()?.result }}
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="error-banner">
+          ⚠️ {{ errorMessage() }}
+        </div>
+      }
+    </div>
+  }
+
+  @if (calculationState(); as state) {
+    <div class="history-section">
+      <h4>📊 Last 3 Operations of This Type</h4>
+      @for (item of state.historyInfo?.lastThreeOperations; track item.executedAt) {
+        <div class="history-item">
+          <div class="history-math">
+            {{ item.fieldA }} → {{ item.fieldB }} = <strong>{{ item.result }}</strong>
+          </div>
+          <div class="history-date">{{ item.executedAt | date:'short' }}</div>
+        </div>
+      }
+    </div>
+
+        <div class="usage-badge">
+          ☑️ {{ state.historyInfo?.monthlyOperationCount }} operations this month
+        </div>
+
+    }
+        <div class="button-group" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+          <button class="btn-manage" routerLink="/manage">
+            ⚙️ Manage Operations
+          </button>
+        </div>
+  </div>
+</div>

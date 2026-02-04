@@ -1,0 +1,34 @@
+<div class="manage-operations-container">
+  <div class="card">
+    <div class="header-section">
+      <h2 style="color: #7c5cc4; display: flex; align-items: center; gap: 10px;">
+        🚀 Manage Operations
+      </h2>
+      <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">
+        Enable or disable specific calculation logic
+      </p>
+    </div>
+
+    <div class="operation-list">
+      @for (op of operations(); track op.id) {
+        <div class="operation-row">
+          <div class="op-info">
+            <span class="op-name">{{ op.name }}</span>
+            <span class="op-desc">{{ op.description }}</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" [checked]="op.isActive" (change)="toggleStatus(op)">
+            <span class="slider"></span>
+          </label>
+        </div>
+      }
+    </div>
+
+    <div class="button-group" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+      <button class="btn-manage" routerLink="/calculator" style="width: auto;">
+        ← Back to Calculator
+      </button>
+    </div>
+    
+  </div>
+</div>

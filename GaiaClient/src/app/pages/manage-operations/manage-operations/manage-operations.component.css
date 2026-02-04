@@ -1,0 +1,123 @@
+/* Ensure this component uses the same global .calculator-container and .card */
+.manage-operations-container {
+  /* Ensure these are either global or in this component's scss */
+  background-color: #7c5cc4;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* This is the "magic" that centers the card vertically */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px; /* Limits the width to match the calculator card */
+  padding: 32px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.operation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 450px;
+  overflow-y: auto;
+  padding-right: 8px;
+
+  /* Custom scrollbar for a cleaner look */
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #e9e2f5;
+    border-radius: 10px;
+  }
+}
+
+.operation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: #f9f7fd;
+  border: 1px solid #e9e2f5;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #7c5cc4;
+    background: #f3effb;
+  }
+}
+
+.op-info {
+  .op-name {
+    font-weight: 700;
+    color: #333;
+    display: block;
+  }
+  .op-desc {
+    font-size: 0.8rem;
+    color: #777;
+  }
+}
+
+/* Your Switch Styles stay the same */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+    &:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+  }
+  input:checked + .slider {
+    background-color: #7c5cc4;
+  }
+  input:checked + .slider:before {
+    transform: translateX(22px);
+  }
+}
+.btn-manage {
+  background: #f3effb; /* Light purple background */
+  color: #7c5cc4; /* Dark purple text */
+  border: 1px solid #7c5cc4;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #7c5cc4;
+    color: white;
+  }
+}
