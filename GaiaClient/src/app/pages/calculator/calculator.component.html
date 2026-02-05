@@ -9,7 +9,7 @@
     <form [formGroup]="calcForm" (ngSubmit)="onCalculate()">
       <div class="form-group">
         <label>Select Operation</label>
-        <select formControlName="operationName">
+        <select formControlName="operationName" autofocus>
           <option value="" disabled>Choose an operation</option>
           @for (op of operations(); track op.id) {
             <option [value]="op.name">{{ op.displayName }} - {{ op.description }}</option>

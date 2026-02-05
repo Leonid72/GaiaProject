@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject } from '@angular/core';
-import { OperationService } from '../../../services/operation.service';
+import { OperationService } from '../../services/operation.service';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
