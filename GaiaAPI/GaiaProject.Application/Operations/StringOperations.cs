@@ -40,11 +40,7 @@ public class ContainsOperationExecutor : IOperationExecutor
 
     public string Execute(string fieldA, string fieldB)
     {
-        //return fieldA.Contains(fieldB, StringComparison.OrdinalIgnoreCase).ToString();
-        bool aContainsB = fieldA.Contains(fieldB, StringComparison.OrdinalIgnoreCase);
-        bool bContainsA = fieldB.Contains(fieldA, StringComparison.OrdinalIgnoreCase);
-
-        return (aContainsB || bContainsA).ToString();
+        return fieldA.Contains(fieldB, StringComparison.OrdinalIgnoreCase).ToString();
     }
 }
 

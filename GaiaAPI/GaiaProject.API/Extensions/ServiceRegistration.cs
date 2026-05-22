@@ -1,4 +1,4 @@
-﻿using GaiaProject.Application.Interfaces;
+using GaiaProject.Application.Interfaces;
 using GaiaProject.Application.Operations;
 using GaiaProject.Application.Options;
 using GaiaProject.Application.Services;
@@ -19,9 +19,11 @@ namespace GaiaProject.API.Extensions
             // Register Services
             services.AddScoped<IOperationService, OperationService>();
 
-            // Register Configuretions
-            services.Configure<OperationHistoryOptions>(
-                configuration.GetSection("OperationHistory"));
+            // Register Configurations
+            services.AddOptions<OperationHistoryOptions>()
+                .Bind(configuration.GetSection("OperationHistory"))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
 
             // Register Operation Executors
             services.AddScoped<IOperationExecutor, AdditionOperationExecutor>();
@@ -33,6 +35,7 @@ namespace GaiaProject.API.Extensions
             services.AddScoped<IOperationExecutor, ConcatenationOperationExecutor>();
             services.AddScoped<IOperationExecutor, CompareOperationExecutor>();
             services.AddScoped<IOperationExecutor, ContainsOperationExecutor>();
+            services.AddScoped<IOperationExecutor, ReplaceOperationExecutor>();
             services.AddScoped<IOperationExecutor, LengthCompareOperationExecutor>();
 
             return services;

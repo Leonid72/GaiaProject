@@ -111,7 +111,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "AdditionOperationExecutor",
                 IsActive = true,
                 SortOrder = 1,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -123,7 +123,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "SubtractionOperationExecutor",
                 IsActive = true,
                 SortOrder = 2,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -135,7 +135,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "MultiplicationOperationExecutor",
                 IsActive = true,
                 SortOrder = 3,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -147,7 +147,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "DivisionOperationExecutor",
                 IsActive = true,
                 SortOrder = 4,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -159,7 +159,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "ModuloOperationExecutor",
                 IsActive = true,
                 SortOrder = 5,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -171,7 +171,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "PowerOperationExecutor",
                 IsActive = true,
                 SortOrder = 6,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -183,7 +183,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "ConcatenationOperationExecutor",
                 IsActive = true,
                 SortOrder = 7,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -195,7 +195,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "CompareOperationExecutor",
                 IsActive = true,
                 SortOrder = 8,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -207,7 +207,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "ContainsOperationExecutor",
                 IsActive = true,
                 SortOrder = 9,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             },
             new Operation
             {
@@ -219,7 +219,7 @@ public class GaiaDbContext : DbContext, IGaiaDbContext
                 ImplementationClass = "LengthCompareOperationExecutor",
                 IsActive = true,
                 SortOrder = 10,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
             }
         );
     }

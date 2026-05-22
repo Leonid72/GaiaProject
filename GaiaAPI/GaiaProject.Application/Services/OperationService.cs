@@ -76,9 +76,9 @@ public class OperationService : IOperationService
                 return response;
             }
 
-            // Find the appropriate executor
-            var executor = _operationExecutors.FirstOrDefault(e => 
-                e.GetType().Name.Equals(operation.ImplementationClass, StringComparison.OrdinalIgnoreCase));
+            // Find the appropriate executor by matching its declared OperationType to the operation name
+            var executor = _operationExecutors.FirstOrDefault(e =>
+                e.OperationType.Equals(operation.Name, StringComparison.OrdinalIgnoreCase));
 
             if (executor == null)
             {

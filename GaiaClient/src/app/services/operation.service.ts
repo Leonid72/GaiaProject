@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { CreateOperationDto, OperationDetailsDto, OperationDto, OperationExecuteRequestDto, OperationExecuteResponseDto } from '../models/operation.model';
 
 @Injectable({
@@ -12,9 +12,9 @@ export class OperationService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiBaseUrl;
 
-  // Calculator dropdown: active only
+  // Calculator dropdown: active only — shared so multiple subscribers do not re-fire the request
   readonly activeOperations$: Observable<OperationDto[]> =
-    this.http.get<OperationDto[]>(`${this.baseUrl}/api/Operations/active`);
+    this.http.get<OperationDto[]>(`${this.baseUrl}/api/Operations/active`).pipe(shareReplay(1));
 
 
   // Manage page: all
@@ -31,14 +31,12 @@ export class OperationService {
     return this.http.post<OperationExecuteResponseDto>(`${this.baseUrl}/api/Operations/execute`, req);
   }
 
-   // Optional: create new operation
-  update(id: number, dto: CreateOperationDto & { isActive?: boolean }): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/api/Operations/${id}`, dto);
+  update(id: number, dto: CreateOperationDto & { isActive?: boolean }): Observable<OperationDto> {
+    return this.http.put<OperationDto>(`${this.baseUrl}/api/Operations/${id}`, dto);
   }
 
   updateStatus(id: number, isActive: boolean): Observable<void> {
-  // Matches your PATCH /api/Operations/{id}/status endpoint
-  return this.http.patch<void>(`${this.baseUrl}/api/Operations/${id}/status`, { isActive });
-}
+    return this.http.patch<void>(`${this.baseUrl}/api/Operations/${id}/status`, { isActive });
+  }
   
 }

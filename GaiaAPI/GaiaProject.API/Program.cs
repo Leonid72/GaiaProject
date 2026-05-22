@@ -71,8 +71,8 @@ using (var scope = app.Services.CreateScope())
     {
         var context = services.GetRequiredService<GaiaDbContext>();
         
-        // Ensure database is created and apply migrations
-        context.Database.EnsureCreated();
+        // Apply pending migrations (creates the database if it does not exist)
+        context.Database.Migrate();
         
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogInformation("Database initialized successfully - A34D");
